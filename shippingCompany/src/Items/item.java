@@ -74,4 +74,12 @@ public abstract class item {
 	}
 	
 	public abstract double calculateArea(double x, double y);
+	
+	public void printInfo() {
+		System.out.println("Name: " + itemName);
+		System.out.println("Shape: " + calculateVolume(x, y, height));
+		System.out.println("Volume: " + weight);
+		System.out.println("Weight: " + weight);
+
+	}
 }
