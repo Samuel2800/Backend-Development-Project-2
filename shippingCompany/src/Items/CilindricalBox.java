@@ -1,8 +1,8 @@
 package Items;
 
 public class CilindricalBox extends item {
-	public CilindricalBox(String itemName, double weight, double x, double y, double height, String baseShape) {
-		super(itemName, weight, x, y, height, baseShape);
+	public CilindricalBox(String itemName, int amount, double weight, double x, double y, double height, String baseShape) {
+		super(itemName, amount, weight, x, y, height, baseShape);
 	}
 
 	public double calculateArea(double x, double y) {

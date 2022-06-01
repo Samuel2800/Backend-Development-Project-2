@@ -1,8 +1,8 @@
 package Items;
 
 public class PolygonBox extends item{
-	public PolygonBox(String itemName, double weight, double x, double y, double height, String baseShape) {
-		super(itemName, weight, x, y, height, baseShape);
+	public PolygonBox(String itemName, double weight, int amount, double x, double y, double height, String baseShape) {
+		super(itemName, amount, weight, x, y, height, baseShape);
 	}
 
 	//For a regular polygon of n sides we only need the length x of a side and the number of sides

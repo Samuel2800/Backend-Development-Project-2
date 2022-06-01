@@ -5,16 +5,18 @@ public abstract class item {
 	//for a rectangle y represents the width, x the length
 	//for a polygon y represents the number of sides (n), x the length of a side
 	private String itemName;
+	private int amount;
 	private double weight;
 	private double x;
 	private double y;
 	private double height;
 	private String baseShape;
 	
-	public item(String itemName, double weight, double x, double y, double height, String baseShape) {
+	public item(String itemName, int amount, double weight, double x, double y, double height, String baseShape) {
 
 		this.itemName = itemName;
 		this.weight = weight;
+		this.amount = amount;
 		this.x = x;
 		this.y = y;
 		this.height = height;
@@ -27,6 +29,14 @@ public abstract class item {
 
 	public void setItemName(String itemName) {
 		this.itemName = itemName;
+	}
+
+	public int getamount() {
+		return amount;
+	}
+
+	public void setamount(int amount) {
+		this.amount = amount;
 	}
 
 	public double getWeight() {
