@@ -7,9 +7,7 @@ import Items.CilindricalBox;
 import Items.PolygonBox;
 import Items.RectangularBox;
 
-public class methods {
-<<<<<<< HEAD
-	
+public class methods {	
 	public HashMap<String, Object> readOrder(){
 		HashMap<String, Object> order = new HashMap<String, Object>();
 		boolean orderIsIncomplete = true;
@@ -143,16 +141,6 @@ public class methods {
 
 		}
 		
-=======
-	//readOrder method add an element to a list
-	//volume and weight just get the element form the list, get the amount, weight and volume and play with that
-	public ArrayList<String> readOrder(){
-		ArrayList<String> order = new ArrayList<String>();
-		boolean incompleteOrder = true;
-		 do while(incompleteOrder) {
-			 //use java scanner
-		 }
->>>>>>> 9b041eabf497c699b898a928e09194064b552ead
 		return order;
 	}
 
