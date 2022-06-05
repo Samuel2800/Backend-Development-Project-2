@@ -10,9 +10,10 @@ public abstract class item {
 	private double x;
 	private double y;
 	private double height;
+	private double volume;
 	private String baseShape;
 	
-	public item(String itemName, int amount, double weight, double x, double y, double height, String baseShape) {
+	public item(String itemName, int amount, double weight, double x, double y, double height, double volume, String baseShape) {
 
 		this.itemName = itemName;
 		this.weight = weight;
@@ -20,6 +21,7 @@ public abstract class item {
 		this.x = x;
 		this.y = y;
 		this.height = height;
+		this.volume = volume;
 		this.baseShape = baseShape;
 	}
 
@@ -31,11 +33,11 @@ public abstract class item {
 		this.itemName = itemName;
 	}
 
-	public int getamount() {
+	public int getAmount() {
 		return amount;
 	}
 
-	public void setamount(int amount) {
+	public void setAmount(int amount) {
 		this.amount = amount;
 	}
 
@@ -69,6 +71,14 @@ public abstract class item {
 
 	public void setHeight(double height) {
 		this.height = height;
+	}
+	
+	public double getVolume() {
+		return volume;
+	}
+	
+	public void setVolume(double volume) {
+		this.volume = volume;
 	}
 
 	public String getBaseShape() {
