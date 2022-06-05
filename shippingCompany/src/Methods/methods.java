@@ -12,7 +12,7 @@ import Items.item;
 
 public class methods {	
 	
-	public HashMap<String, Object> addItems(HashMap<String, Object> order){
+	public void addItems(HashMap<String, Object> order){
 		boolean orderIsIncomplete = true;
 		
 		while(orderIsIncomplete) {
@@ -66,8 +66,8 @@ public class methods {
 			
 			//shape
 			System.out.println("Please introducte one of the next options as the base of your box:");
-			System.out.println("Circle    Rectangle    Square    Polygon");
-			String[] validShapes = {"circle", "rectangle", "square", "polygon"};
+			System.out.println("Circle    Rectangle    Cube    Polygon");
+			String[] validShapes = {"circle", "rectangle", "cube", "polygon"};
 			baseShape = sc.nextLine();
 			baseShape = baseShape.toLowerCase().trim();
 			if(!Arrays.asList(validShapes).contains(baseShape)) {
@@ -86,7 +86,7 @@ public class methods {
 					System.out.println("Something went wrong, please try adding this item again");
 					continue;
 				}
-				CilindricalBox cb = new CilindricalBox(itemName, amount, weight, x, y, height, volume, baseShape);
+				CilindricalBox cb = new CilindricalBox(itemName, amount, weight, x, y, height, volume, "Cylinder");
 				volume = Math.round((cb.calculateVolume(x, y, height) * 100 / 100));
 				cb.setVolume(volume);
 				order.put(itemName, cb);
@@ -103,12 +103,12 @@ public class methods {
 					System.out.println("Something went wrong, please try adding this item again");
 					continue;
 				}
-				RectangularBox rb = new RectangularBox(itemName, amount, weight, x, y, height, volume, baseShape);
+				RectangularBox rb = new RectangularBox(itemName, amount, weight, x, y, height, volume, "Rectangular prism");
 				volume = Math.round((rb.calculateVolume(x, y, height) * 100 / 100));
 				rb.setVolume(volume);
 				order.put(itemName, rb);
 			}
-			//Square
+			//Cube
 			else if(baseShape.equals(validShapes[2])) {
 				try {
 					System.out.println("What is the length of one of the base's sides?");
@@ -118,8 +118,8 @@ public class methods {
 					System.out.println("Something went wrong, please try adding this item again");
 					continue;
 				}
-				RectangularBox sb = new RectangularBox(itemName, amount, weight, x, x, height, volume, baseShape);
-				volume = Math.round((sb.calculateVolume(x, x, height) * 100 / 100));
+				RectangularBox sb = new RectangularBox(itemName, amount, weight, x, x, height, volume, "Cube");
+				volume = Math.round((sb.calculateVolume(x, x, x) * 100 / 100));
 				sb.setVolume(volume);
 				order.put(itemName, sb);
 			}
@@ -130,12 +130,16 @@ public class methods {
 					x = Double.valueOf(sc.nextLine());
 					System.out.println("How many sides does it have?");
 					y = Double.valueOf(sc.nextLine());
+					if(y < 5) {
+						System.out.println("No shape found");
+						continue;
+					}
 				}
 				catch(Exception e){
 					System.out.println("Something went wrong, please try adding this item again");
 					continue;
 				}
-				PolygonBox pb = new PolygonBox(itemName, amount, weight, x, y, height, volume, baseShape);
+				PolygonBox pb = new PolygonBox(itemName, amount, weight, x, y, height, volume, "Polygonal prism");
 				volume = Math.round((pb.calculateVolume(x, y, height) * 100 / 100));
 				pb.setVolume(volume);
 				order.put(itemName, pb);
@@ -150,8 +154,16 @@ public class methods {
 				System.out.println("Thanks for trusting us with your order");
 			}
 		}
-		return order;
 	}
+	
+	public void removeItem(HashMap<String, Object> order, String item) {
+		try {
+			order.remove(item);
+		}
+		catch(Exception e) {
+			System.out.println(item + " couldn't be found in the order");
+		}
+	}	
 	
 	public double orderVolume(HashMap<String, Object> order) {
 		double totalVolume = 0;
@@ -178,46 +190,136 @@ public class methods {
 	}
 	
 	public void printOrderInfo(HashMap<String, Object> order) {
-		int option;
-		Scanner sc = new Scanner(System.in);
-		System.out.println("For printing general information about the order press 1");
-		System.out.println("For printing the information of every item in the order press 2");
-		System.out.println("For printing the information of a specific item press 3");
-		option = sc.nextInt();
-		
-		if(option == 1) {
-			double volume = orderVolume(order);
-			double weight = orderWeight(order);
-			System.out.println("The order has " + order.size() + " items");
-			System.out.println("The total volume is: " + volume);
-			System.out.println("The total weight is: " + weight);
+		if(order.isEmpty()) {
+			System.out.println("You have not added any items to this order yet");
 		}
-		
-		else if(option == 2) {
-			for(Object value : order.values()) {
-				printItemInfo(value);
-				System.out.println("------------------------------------------------");
+		else {
+			int option;
+			Scanner sc = new Scanner(System.in);
+			System.out.println("For printing general information about the order press 1");
+			System.out.println("For printing the information of every item in the order press 2");
+			option = sc.nextInt();
+			
+			if(option == 1) {
+				double volume = orderVolume(order);
+				double weight = orderWeight(order);
+				System.out.println("The order has " + order.size() + " items");
+				System.out.println("The total volume is: " + volume);
+				System.out.println("The total weight is: " + weight);
+			}
+			
+			else if(option == 2) {
+				for(Object value : order.values()) {
+					printItemInfo(value);
+					System.out.println("------------------------------------------------");
+				}
+			}
+			else {
+				System.out.println("This option is not available");
 			}
 		}
-		else if(option == 3) {
-			System.out.println("What is the name of the item?");
-			Object item = order.get(sc.nextLine());
-			printItemInfo(item);
-		}
-		
 	}
 	
-	public void bestShippingMethod(HashMap<String, Object> order) {
-		//music reference lol
-		BigContainer Biggie = new BigContainer(0);
-		SmallContainer Smalls = new SmallContainer(0);
-		//update each item's amount till it gets to 0, then go for the next one
-		//if the remaining volume is less than a small container, start adding the weight to smalls
-		
+	public void bestShippingMethod(HashMap<String, Object> order, BigContainer biggie, SmallContainer smalls) {
+		double localVolume = orderVolume(order);
+		double localWeight = orderWeight(order);
+		double smallVolume = smalls.getContainerVolume();
+		double bigVolume = biggie.getContainerVolume();
+		while(!order.isEmpty()){
+			double temp = 0;
+			if(localVolume > smallVolume) {
+				biggie.setAmount(biggie.getAmount() + 1);
+				for(String key : order.keySet()) {
+					Object value = order.get(key);
+					while(!(((item) value).getAmount() == 0) && (temp + ((item) value).getVolume()) < bigVolume && !(((item) value).getAmount() == 0)) {
+						temp += ((item) value).getVolume();
+						((item) value).setAmount(((item) value).getAmount() - 1);
+						localVolume -= ((item) value).getVolume();
+						localWeight -= ((item) value).getWeight();
+					}
+					if(((item) value).getAmount() == 0) {
+						order.remove(key);
+					}
+				}
+			}
+			else {
+				smalls.setAmount(smalls.getAmount() + 1);
+				for(String key : order.keySet()) {
+					Object value = order.get(key);
+					while(!(((item) value).getAmount() == 0) && !(((item) value).getAmount() == 0)) {
+						//just in case  && (temp + ((item) value).getVolume()) < smallVolume
+						temp += ((item) value).getVolume();
+						((item) value).setAmount(((item) value).getAmount() - 1);
+						localVolume -= ((item) value).getVolume();
+						localWeight -= ((item) value).getWeight();
+					}
+					if(((item) value).getAmount() == 0) {
+						order.remove(key);
+					}
+				}
+			}
+		}
+		double cost = shippingCost(biggie, smalls);
+		System.out.println("Big containers used: " + biggie.getAmount());
+		System.out.println("Small containers used: " + smalls.getAmount());
+		System.out.println("Shipping cost: " + cost);
 	}
 	
 	public double shippingCost(BigContainer biggie, SmallContainer smalls) {
 		return ((biggie.getAmount() * 1800) + (smalls.getWeight() < 500 ? 1000 : 1200));
+	}
+	
+	public void app() {
+		HashMap<String, Object> order = new HashMap<String, Object>();
+		BigContainer biggie = new BigContainer(0);
+		SmallContainer smalls = new SmallContainer(0);
+		boolean exit = false;
+		Scanner sc = new Scanner(System.in);
+		while(!exit) {
+			System.out.println("To procede choose one of the following options");
+			System.out.println("1. Add items to the order");
+			System.out.println("2. Remove an item from the order");
+			System.out.println("3. Show information about the order");
+			System.out.println("4. Show information about an specific item");
+			System.out.println("5. Get the best shipping method");
+			System.out.println("6. Exit");
+			String option = sc.nextLine();
+			if(option.toLowerCase().trim().equals("add items to the order") || option.trim().equals("1") || option.trim().equals("1. Add items to the order")) {
+				addItems(order);
+			}
+			else if(option.toLowerCase().trim().equals("remove an item from the order") || option.trim().equals("2") || option.trim().equals("2. Remove an item from the order")) {
+				System.out.println("Enter the name of the item you want to remove");
+				String itemToRemove = sc.nextLine();
+				removeItem(order, itemToRemove);
+			}
+			else if(option.toLowerCase().trim().equals("show information about the order") || option.trim().equals("3") || option.trim().equals("3. Show information about the order")) {
+				printOrderInfo(order);
+			}
+			else if(option.toLowerCase().trim().equals("show information about an specific item") || option.trim().equals("4") || option.trim().equals("4. Show information about an specific item")) {
+				System.out.println("Introduce the name of the item");
+				String str = sc.nextLine();
+				try {
+					printItemInfo(order.get(str));
+				}
+				catch(Exception e) {
+					System.out.println("No item was found under this name");
+					continue;
+				}
+			}
+			else if(option.toLowerCase().trim().equals("get the best shipping method") || option.trim().equals("5") || option.trim().equals("5. Get the best shipping method")) {
+				HashMap<String, Object> copy = order;
+				bestShippingMethod(copy, biggie, smalls);
+			}
+			else if(option.toLowerCase().trim().equals("exit") || option.trim().equals("6") || option.trim().equals("6. Exit")) {
+				exit = true;
+				System.out.println("The programm has ended, please close the console");
+			}
+			else {
+				System.out.println("Option not available");
+			}
+		}
+		
+		
 	}
 
 

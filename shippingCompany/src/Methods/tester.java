@@ -8,6 +8,7 @@ import Items.*;
 public class tester {
 
 	public static void main(String[] args) {
-		
+		methods op = new methods();
+		op.app();
 	}
 }
