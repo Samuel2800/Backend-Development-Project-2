@@ -9,7 +9,6 @@ public class methods {
 		boolean incompleteOrder = true;
 		 do while(incompleteOrder) {
 			 //use java scanner
-			 //prueba bobo perro
 		 }
 		return order;
 	}
