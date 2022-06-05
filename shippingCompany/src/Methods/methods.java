@@ -151,7 +151,6 @@ public class methods {
 		boolean incompleteOrder = true;
 		 do while(incompleteOrder) {
 			 //use java scanner
-			 //prueba bobo perro
 		 }
 >>>>>>> 9b041eabf497c699b898a928e09194064b552ead
 		return order;
