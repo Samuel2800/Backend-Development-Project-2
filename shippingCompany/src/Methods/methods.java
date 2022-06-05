@@ -8,6 +8,7 @@ import Items.PolygonBox;
 import Items.RectangularBox;
 
 public class methods {	
+	
 	public HashMap<String, Object> readOrder(){
 		HashMap<String, Object> order = new HashMap<String, Object>();
 		boolean orderIsIncomplete = true;
@@ -138,9 +139,19 @@ public class methods {
 				order.put(itemName, pb);
 			}
 			
-
+			System.out.println("Name: " + itemName);
+			System.out.println("Amount: " + amount);
+			System.out.println("Total weight: " + weight);
+			System.out.println("Total volume: " + volume);
+			
+			//continue ordering
+			System.out.println("Do you want to continue with the order?(Y/N)");
+			if(sc.nextLine().toLowerCase().equals("n") ||sc.nextLine().toLowerCase().equals("no")) {
+				orderIsIncomplete = false;
+				System.out.println("Your order includes " + order.size() + " items");
+				System.out.println("Thanks for trusting us with your order");
+			}
 		}
-		
 		return order;
 	}
 
