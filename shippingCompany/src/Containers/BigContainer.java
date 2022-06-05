@@ -3,10 +3,12 @@ package Containers;
 public class BigContainer {
 
 	private double containerVolume = 75.587337;
+	private int amount;
 
-	public BigContainer(double containerVolume) {
+	public BigContainer(int amount) {
 		super();
 		this.containerVolume = containerVolume;
+		this.amount = amount;
 	}
 
 	public double getContainerVolume() {
@@ -17,5 +19,12 @@ public class BigContainer {
 		this.containerVolume = containerVolume;
 	}
 	
+	public int getAmount() {
+		return amount;
+	}
+	
+	public void setAmount(int amount) {
+		this.amount = amount;
+	}
 	
 }
