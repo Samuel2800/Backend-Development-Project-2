@@ -1,7 +1,7 @@
 package Containers;
 
 public class BigContainer {
-
+	//the volume of the container stays fixed
 	private double containerVolume = 75.587337;
 	private int amount;
 

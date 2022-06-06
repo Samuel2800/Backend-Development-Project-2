@@ -1,10 +1,10 @@
 package Containers;
 
 public class SmallContainer {
-	
+	//the volume of the container stays fixed
 	private double containerVolume = 38.139822;
 	private int amount;
-	private int weight;
+	private double weight;
 
 	public SmallContainer(int amount) {
 		super();
@@ -29,12 +29,12 @@ public class SmallContainer {
 		this.amount = amount;
 	}
 
-	public int getWeight() {
+	public double getWeight() {
 		return weight;
 	}
 
-	public void setWeight(int weight) {
-		this.weight = weight;
+	public void setWeight(double localWeight) {
+		this.weight = localWeight;
 	}
 	
 	
