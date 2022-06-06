@@ -1,4 +1,5 @@
 package Methods;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -45,6 +46,7 @@ public class methods {
 			}
 			
 			//height
+			System.out.println("This program uses the metric system, please guive measurements in meters and weight in kilograms");
 			System.out.println("What is the height of the box?");
 			try {
 				height = Double.valueOf(sc.nextLine());
@@ -87,9 +89,18 @@ public class methods {
 					continue;
 				}
 				CilindricalBox cb = new CilindricalBox(itemName, amount, weight, x, y, height, volume, "Cylinder");
-				volume = Math.round((cb.calculateVolume(x, y, height) * 100 / 100));
-				cb.setVolume(volume);
-				order.put(itemName, cb);
+				volume = cb.calculateVolume(x, y, height);
+				if(volume < 75.587337) {
+					cb.setVolume(volume);
+					order.put(itemName, cb);
+				}
+				else if(volume <= 0) {
+					System.out.println("Seems like something went wrong, please make sure to enter the correct measurements");
+				}
+				else {
+					System.out.println("This item is too big to fit in our containers");
+					continue;
+				}
 			}
 			//Rectangle
 			else if(baseShape.equals(validShapes[1])) {
@@ -104,9 +115,18 @@ public class methods {
 					continue;
 				}
 				RectangularBox rb = new RectangularBox(itemName, amount, weight, x, y, height, volume, "Rectangular prism");
-				volume = Math.round((rb.calculateVolume(x, y, height) * 100 / 100));
-				rb.setVolume(volume);
-				order.put(itemName, rb);
+				volume = rb.calculateVolume(x, y, height);
+				if(volume < 75.587337) {
+					rb.setVolume(volume);
+					order.put(itemName, rb);
+				}
+				else if(volume <= 0) {
+					System.out.println("Seems like something went wrong, please make sure to enter the correct measurements");
+				}
+				else {
+					System.out.println("This item is too big to fit in our containers");
+					continue;
+				}
 			}
 			//Cube
 			else if(baseShape.equals(validShapes[2])) {
@@ -119,9 +139,18 @@ public class methods {
 					continue;
 				}
 				RectangularBox sb = new RectangularBox(itemName, amount, weight, x, x, height, volume, "Cube");
-				volume = Math.round((sb.calculateVolume(x, x, x) * 100 / 100));
-				sb.setVolume(volume);
-				order.put(itemName, sb);
+				volume = sb.calculateVolume(x, x, x);
+				if(volume < 75.587337) {
+					sb.setVolume(volume);
+					order.put(itemName, sb);
+				}
+				else if(volume <= 0) {
+					System.out.println("Seems like something went wrong, please make sure to enter the correct measurements");
+				}
+				else {
+					System.out.println("This item is too big to fit in our containers");
+					continue;
+				}
 			}
 			//Polygon
 			else if(baseShape.equals(validShapes[3])) {
@@ -140,9 +169,18 @@ public class methods {
 					continue;
 				}
 				PolygonBox pb = new PolygonBox(itemName, amount, weight, x, y, height, volume, "Polygonal prism");
-				volume = Math.round((pb.calculateVolume(x, y, height) * 100 / 100));
-				pb.setVolume(volume);
-				order.put(itemName, pb);
+				volume = pb.calculateVolume(x, y, height);
+				if(volume < 75.587337) {
+					pb.setVolume(volume);
+					order.put(itemName, pb);
+				}
+				else if(volume <= 0) {
+					System.out.println("Seems like something went wrong, please make sure to enter the correct measurements");
+				}
+				else {
+					System.out.println("This item is too big to fit in our containers");
+					continue;
+				}
 			}
 			
 			System.out.println("New Item added successfully");
@@ -194,13 +232,14 @@ public class methods {
 			System.out.println("You have not added any items to this order yet");
 		}
 		else {
-			int option;
+			String option;
 			Scanner sc = new Scanner(System.in);
-			System.out.println("For printing general information about the order press 1");
-			System.out.println("For printing the information of every item in the order press 2");
-			option = sc.nextInt();
+			System.out.println("Please choose one of the following options");
+			System.out.println("1. Show general information about the order");
+			System.out.println("2. Show information about every item in the order");
+			option = sc.nextLine();
 			
-			if(option == 1) {
+			if(option.trim().equals("1. Show general information about the order") || option.trim().equals("1") || option.trim().toLowerCase().equals("show general information about the order")) {
 				double volume = orderVolume(order);
 				double weight = orderWeight(order);
 				System.out.println("The order has " + order.size() + " items");
@@ -208,7 +247,7 @@ public class methods {
 				System.out.println("The total weight is: " + weight);
 			}
 			
-			else if(option == 2) {
+			else if(option.trim().equals("2. Show information about every item in the order") || option.trim().equals("2") || option.trim().toLowerCase().equals("show information about every item in the order")) {
 				for(Object value : order.values()) {
 					printItemInfo(value);
 					System.out.println("------------------------------------------------");
@@ -225,7 +264,8 @@ public class methods {
 		double localWeight = orderWeight(order);
 		double smallVolume = smalls.getContainerVolume();
 		double bigVolume = biggie.getContainerVolume();
-		while(!order.isEmpty()){
+		int counter = 0;
+		while(counter != order.size()){
 			double temp = 0;
 			if(localVolume > smallVolume) {
 				biggie.setAmount(biggie.getAmount() + 1);
@@ -238,7 +278,8 @@ public class methods {
 						localWeight -= ((item) value).getWeight();
 					}
 					if(((item) value).getAmount() == 0) {
-						order.remove(key);
+						counter += 1;
+						continue;
 					}
 				}
 			}
@@ -254,7 +295,8 @@ public class methods {
 						localWeight -= ((item) value).getWeight();
 					}
 					if(((item) value).getAmount() == 0) {
-						order.remove(key);
+						counter += 1;
+						continue;
 					}
 				}
 			}
@@ -264,9 +306,17 @@ public class methods {
 		System.out.println("Small containers used: " + smalls.getAmount());
 		System.out.println("Shipping cost: " + cost);
 	}
+
+	public ArrayList<String> keyList(HashMap<String, Object> order){
+		ArrayList<String> keys = new ArrayList<String>();
+		for(String key : order.keySet()) {
+			keys.add(key);
+		}
+		return keys;
+	}
 	
 	public double shippingCost(BigContainer biggie, SmallContainer smalls) {
-		return ((biggie.getAmount() * 1800) + (smalls.getWeight() < 500 ? 1000 : 1200));
+		return ((biggie.getAmount() * 1800) + ((smalls.getAmount()) * (smalls.getWeight() < 500 ? 1000 : 1200)));
 	}
 	
 	public void app() {
@@ -276,7 +326,7 @@ public class methods {
 		boolean exit = false;
 		Scanner sc = new Scanner(System.in);
 		while(!exit) {
-			System.out.println("To procede choose one of the following options");
+			System.out.println("Please choose one of the following options");
 			System.out.println("1. Add items to the order");
 			System.out.println("2. Remove an item from the order");
 			System.out.println("3. Show information about the order");
@@ -317,11 +367,6 @@ public class methods {
 			else {
 				System.out.println("Option not available");
 			}
-		}
-		
-		
+		}	
 	}
-
-
-	
 }
